@@ -1,16 +1,10 @@
 package com.ipublic.facedetectet;
 
-import nu.pattern.OpenCV;
-
-import org.opencv.core.Core;
-import org.opencv.core.CvType;
-import org.opencv.core.Mat;
-import org.opencv.core.Scalar;
 
 public class App {
 	static {
-		//System.loadLibrary( org.opencv.core.Core.NATIVE_LIBRARY_NAME);
-		OpenCV.loadShared();
+		// System.loadLibrary( org.opencv.core.Core.NATIVE_LIBRARY_NAME);
+		// OpenCV.loadShared();
 	}
 
 	public static void main(String[] args) {
