@@ -7,67 +7,52 @@
 	<version>1.0.0-SNAPSHOT</version>
 	<name>ntipa-face-rec</name>
 
-	<parent>
-		<groupId>org.bytedeco</groupId>
-		<artifactId>javacpp-presets</artifactId>
-		<version>0.9</version>
-	</parent>
+	<!-- <parent> <groupId>org.bytedeco</groupId> <artifactId>javacpp-presets</artifactId> 
+		<version>0.9</version> </parent> -->
 	<build>
 		<plugins>
 			<plugin>
+				<artifactId>maven-resources-plugin</artifactId>
+			</plugin>
+			<plugin>
+				<artifactId>maven-compiler-plugin</artifactId>
+			</plugin>
+			<plugin>
+				<groupId>org.bytedeco</groupId>
+				<artifactId>javacpp</artifactId>
+			</plugin>
+			<plugin>
 				<artifactId>maven-jar-plugin</artifactId>
-				<version>2.4</version>
-				<configuration>
-					<archive>
-						<manifest>
-							<addClasspath>true</addClasspath>
-							<classpathPrefix>lib/</classpathPrefix>
-							<mainClass>com.mycompany.app.App</mainClass>
-						</manifest>
-					</archive>
-				</configuration>
 			</plugin>
 			<plugin>
-				<groupId>org.apache.maven.plugins</groupId>
 				<artifactId>maven-dependency-plugin</artifactId>
-				<version>2.1</version>
-				<executions>
-					<execution>
-						<id>copy-dependencies</id>
-						<phase>package</phase>
-						<goals>
-							<goal>copy-dependencies</goal>
-						</goals>
-						<configuration>
-							<outputDirectory>${project.build.directory}/lib</outputDirectory>
-							<overWriteReleases>false</overWriteReleases>
-							<overWriteSnapshots>false</overWriteSnapshots>
-							<overWriteIfNewer>true</overWriteIfNewer>
-						</configuration>
-					</execution>
-				</executions>
 			</plugin>
 			<plugin>
-				<groupId>com.googlecode.mavennatives</groupId>
-				<artifactId>maven-nativedependencies-plugin</artifactId>
-				<version>0.0.7</version>
-				<executions>
-					<execution>
-						<id>unpacknatives</id>
-						<phase>generate-resources</phase>
-						<goals>
-							<goal>copy</goal>
-						</goals>
-					</execution>
-				</executions>
+				<artifactId>maven-source-plugin</artifactId>
 			</plugin>
+			<plugin>
+				<artifactId>maven-javadoc-plugin</artifactId>
+			</plugin>
+
+			<!-- <plugin> <artifactId>maven-jar-plugin</artifactId> <configuration> 
+				<archive> <manifest> <addClasspath>true</addClasspath> <classpathPrefix>lib/</classpathPrefix> 
+				<mainClass>com.mycompany.app.App</mainClass> </manifest> </archive> </configuration> 
+				</plugin> <plugin> <groupId>org.apache.maven.plugins</groupId> <artifactId>maven-dependency-plugin</artifactId> 
+				<executions> <execution> <id>copy-dependencies</id> <phase>package</phase> 
+				<goals> <goal>copy-dependencies</goal> </goals> <configuration> <outputDirectory>${project.build.directory}/lib</outputDirectory> 
+				<overWriteReleases>false</overWriteReleases> <overWriteSnapshots>false</overWriteSnapshots> 
+				<overWriteIfNewer>true</overWriteIfNewer> </configuration> </execution> </executions> 
+				</plugin> <plugin> <groupId>com.googlecode.mavennatives</groupId> <artifactId>maven-nativedependencies-plugin</artifactId> 
+				<version>0.0.7</version> <executions> <execution> <id>unpacknatives</id> 
+				<phase>generate-resources</phase> <goals> <goal>copy</goal> </goals> </execution> 
+				</executions> </plugin> -->
 		</plugins>
 	</build>
 	<dependencies>
 		<dependency>
 			<groupId>junit</groupId>
 			<artifactId>junit</artifactId>
-			<version>3.8.1</version>
+			<version>4.11</version>
 			<scope>test</scope>
 		</dependency>
 		<dependency>
@@ -81,25 +66,22 @@
 			<version>0.9</version>
 		</dependency>
 		<dependency>
+			<groupId>org.bytedeco</groupId>
+			<artifactId>javacpp</artifactId>
+			<version>0.9</version>
+		</dependency>
+		<dependency>
 			<groupId>org.bytedeco.javacpp-presets</groupId>
 			<artifactId>opencv</artifactId>
 			<version>2.4.9-0.9</version>
 			<classifier>linux-x86_64</classifier>
 		</dependency>
-		<dependency>
-			<groupId>org.bytedeco</groupId>
-			<artifactId>javacpp</artifactId>
-			<version>0.9</version>
-		</dependency>
-
-
 
 		<dependency>
 			<groupId>net.imagej</groupId>
 			<artifactId>ij</artifactId>
 			<version>1.49d</version>
 		</dependency>
-
 
 	</dependencies>
 
