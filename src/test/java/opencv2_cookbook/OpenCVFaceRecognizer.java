@@ -1,9 +1,11 @@
 package opencv2_cookbook;
 
 import org.bytedeco.javacpp.opencv_contrib;
+
 import static org.bytedeco.javacpp.opencv_core.CV_32SC1;
 import static org.bytedeco.javacpp.opencv_highgui.CV_LOAD_IMAGE_GRAYSCALE;
 import static org.bytedeco.javacpp.opencv_highgui.imread;
+import ij.process.ImageProcessor;
 
 import java.io.File;
 import java.io.FilenameFilter;
@@ -20,12 +22,10 @@ public class OpenCVFaceRecognizer {
 	public void test1() {
 		try {
 
-			String fileImageTest = "~/git/docker-face_rec/trainingDir/jessica_1.jpg";
+			String fileImageTest = "~/git/docker-face_rec/trainingDir/20141107-peppe.jpg";
 			String trainingDir = "trainingDir";
 
-			Mat testImage = imread(fileImageTest, CV_LOAD_IMAGE_GRAYSCALE);
-			System.out.println(testImage);
-
+			
 			File root = new File(trainingDir);
 
 			FilenameFilter imgFilter = new FilenameFilter() {
@@ -49,19 +49,26 @@ public class OpenCVFaceRecognizer {
 				Mat img = imread(image.getAbsolutePath(),
 						CV_LOAD_IMAGE_GRAYSCALE);
 
+				
 				int label = Integer.parseInt(image.getName().split("\\-")[0]);
 				images.put(counter, img);
 				labelsBuf.put(counter, label);
 				counter++;
+				
+ 
+				 
 			}
 
-			// FaceRecognizer faceRecognizer = createEigenFaceRecognizer();
-			// FaceRecognizer faceRecognizer = createLBPHFaceRecognizer()
 
 			FaceRecognizer faceRecognizer = opencv_contrib.createFisherFaceRecognizer();
+		//	FaceRecognizer faceRecognizer = opencv_contrib.createLBPHFaceRecognizer();
+			//FaceRecognizer faceRecognizer = opencv_contrib.createEigenFaceRecognizer();
 			faceRecognizer.train(images, labels);
-			int predictedLabel = faceRecognizer.predict(testImage);
 			
+			
+			Mat testImage = imread(fileImageTest, CV_LOAD_IMAGE_GRAYSCALE);
+			System.out.println(testImage);
+			int predictedLabel = faceRecognizer.predict(testImage);
 			System.out.println("Predicted label: " + predictedLabel);
 			
 		} catch (UnsatisfiedLinkError e) {
