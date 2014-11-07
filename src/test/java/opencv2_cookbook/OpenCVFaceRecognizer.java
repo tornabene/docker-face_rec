@@ -22,7 +22,6 @@ public class OpenCVFaceRecognizer {
 	public void test1() {
 		try {
 
-			String fileImageTest = "~/git/docker-face_rec/trainingDir/20141107-peppe.jpg";
 			String trainingDir = "trainingDir";
 
 			
@@ -37,7 +36,6 @@ public class OpenCVFaceRecognizer {
 			};
 
 			File[] imageFiles = root.listFiles(imgFilter);
-
 			System.out.println(imageFiles);
 
 			MatVector images = new MatVector(imageFiles.length);
@@ -54,19 +52,16 @@ public class OpenCVFaceRecognizer {
 				images.put(counter, img);
 				labelsBuf.put(counter, label);
 				counter++;
-				
- 
 				 
 			}
 
 
 			FaceRecognizer faceRecognizer = opencv_contrib.createFisherFaceRecognizer();
-		//	FaceRecognizer faceRecognizer = opencv_contrib.createLBPHFaceRecognizer();
-			//FaceRecognizer faceRecognizer = opencv_contrib.createEigenFaceRecognizer();
 			faceRecognizer.train(images, labels);
 			
-			
+			String fileImageTest = "/home/tino/git/tornabene/docker-face_rec/testImage/IMG_20141107_123939.jpg";
 			Mat testImage = imread(fileImageTest, CV_LOAD_IMAGE_GRAYSCALE);
+			
 			System.out.println(testImage);
 			int predictedLabel = faceRecognizer.predict(testImage);
 			System.out.println("Predicted label: " + predictedLabel);
