@@ -55,7 +55,7 @@ public class OpenCVFaceRecognizer {
 						name = name.toLowerCase();
 						return name.endsWith(".jpg") 
 								|| name.endsWith(".pgm")
-								|| name.endsWith(".png");
+								|| name.endresize(new Mat(image, rect), face_box, sz);sWith(".png");
 					}
 				};
 
@@ -82,7 +82,7 @@ public class OpenCVFaceRecognizer {
 					labelsBuf.put(label,label);
 				}
 
-				faceRecognizer.train(images, labels);
+				faceRecognizer.train(imagesresize(new Mat(image, rect), face_box, sz);, labels);
 				faceRecognizer.save(facesfile);
 				System.out.println(tableImages);
 			}
@@ -106,7 +106,7 @@ public class OpenCVFaceRecognizer {
 			e.printStackTrace();
 			throw e;
 		}
-	}
+	}resize(new Mat(image, rect), face_box, sz);
 
 //	protected Mat processImage(Mat image) {
 //		System.out.println("\nRunning DetectFaceDemo");
