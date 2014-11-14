@@ -18,6 +18,10 @@ import org.bytedeco.javacpp.opencv_contrib;
 import org.bytedeco.javacpp.opencv_contrib.FaceRecognizer;
 import org.bytedeco.javacpp.opencv_core.Mat;
 import org.bytedeco.javacpp.opencv_core.MatVector;
+import org.bytedeco.javacpp.opencv_core.Rect;
+import org.bytedeco.javacpp.opencv_core.Size;
+import org.bytedeco.javacpp.opencv_imgproc;
+import org.bytedeco.javacpp.opencv_objdetect.CascadeClassifier;
 import org.junit.Test;
 //import org.opencv.core.Rect;
 //import org.opencv.core.Size;
@@ -38,15 +42,11 @@ public class OpenCVFaceRecognizer {
 			 * Checks if a face set already exists 
 			 */
 			try {
-				// Open the file for reading.
 				rd = new BufferedReader(new FileReader(new File(facesfile)));
-
-				// Read all contents of the file.
 				faceRecognizer.load(facesfile);
 			}
 			catch(IOException ex) {
 				System.err.println("An IOException was caught!");
-				//ex.printStackTrace();
 				String trainingDir = "trainingDir";
 				File root = new File(trainingDir);
 
@@ -55,7 +55,7 @@ public class OpenCVFaceRecognizer {
 						name = name.toLowerCase();
 						return name.endsWith(".jpg") 
 								|| name.endsWith(".pgm")
-								|| name.endresize(new Mat(image, rect), face_box, sz);sWith(".png");
+								|| name.endsWith(".png");
 					}
 				};
 
@@ -72,8 +72,8 @@ public class OpenCVFaceRecognizer {
 				for (File image : imageFiles) {
 					String filename = image.getAbsolutePath();
 					/* Reads an image, detects a face if any and returns a bounding box of a given size */
-					//Mat box_face = processImage( imread(filename, CV_LOAD_IMAGE_GRAYSCALE) );
-					Mat box_face =  	imread(filename, CV_LOAD_IMAGE_GRAYSCALE);
+					Mat box_face = processImage( imread(filename, CV_LOAD_IMAGE_GRAYSCALE) );
+					//Mat box_face =  imread(filename, CV_LOAD_IMAGE_GRAYSCALE);
 					Integer label = counter++;
 					images.put(label, box_face);
 
@@ -106,36 +106,37 @@ public class OpenCVFaceRecognizer {
 			e.printStackTrace();
 			throw e;
 		}
-	}resize(new Mat(image, rect), face_box, sz);
+	}
+	//resize(new Mat(image, rect), face_box, sz);
 
-//	protected Mat processImage(Mat image) {
-//		System.out.println("\nRunning DetectFaceDemo");
-//		// Create a face detector from the cascade file in the resources
-//		// directory.
-//		CvRect faceDetections = new CvRect();
-//		CascadeClassifier faceDetector = new CascadeClassifier("resources/lbpcascade_frontalface.xml");
-//		//Mat image = Highgui.imread("resources/test.png");
-//
-//		// Detect faces in the image.
-//		// MatOfRect is a special container class for Rect.
-//
-//		faceDetector.detectMultiScale(image, faceDetections, 1.1, 1, 0, CvSize(10, 10), cvSize(10, 10));
-//
-//		System.out.println(String.format("Detected %s faces", faceDetections.toArray().length));
-//
-//		// Draw a bounding box around each face.
-//		int i = 0;
-//		Mat face_box = null;
-//		Size sz = new Size(300,300);
-//		for (Rect rect : faceDetections.toArray()) {
-//			face_box = new Mat(image, rect);
-//			// Save the visualized detection.
-//
-//			String filename = "resources/face_box_" + i++ + ".png";
-//			System.out.println(String.format("Writing %s", filename));
-//			resize(new Mat(image, rect), face_box, sz);
-//			//imwrite(filename, face_box);
-//		}
-//		return face_box;
-//	}
+	protected Mat processImage(Mat image) {
+		System.out.println("\nRunning DetectFaceDemo");
+		// Create a face detector from the cascade file in the resources
+		// directory.
+		Rect faceBox = new Rect();
+		CascadeClassifier faceDetector = new CascadeClassifier("resources/lbpcascade_frontalface.xml");
+		//Mat image = Highgui.imread("resources/test.png");
+
+		// Detect faces in the image.
+		// MatOfRect is a special container class for Rect.
+
+		faceDetector.detectMultiScale(image, faceBox); //, 1.1, 1, 0, CvSize(10, 10), cvSize(10, 10));
+
+		System.out.println(String.format("Detected %s faces", faceBox.toArray().length));
+
+		// Draw a bounding box around each face.
+		int i = 0;
+		Mat face_box = null;
+		Size sz = new Size(300,300);
+		for (Rect rect : faceBox.toArray()) {
+			face_box = new Mat(image, rect);
+			// Save the visualized detection.
+
+			String filename = "resources/face_box_" + i++ + ".png";
+			System.out.println(String.format("Writing %s", filename));
+			opencv_imgproc.resize(new Mat(image, rect), face_box, sz);
+			//imwrite(filename, face_box);
+		}
+		return face_box;
+	}
 }
